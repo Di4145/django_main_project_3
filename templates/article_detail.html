@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{ article.title }}<br>
+    {{ article.author }}<br>
+    {{ article.text }}<br>
+    {{ article.created_at }}<br>
+    {{ article.update }}<br>
+    {{ article.text_1|safe }}<br>
+
+    Кол-во лайков: <span id="like-count">{{ like_count }}</span><br>
+    <br>
+    <form action='{% url 'like_set' %}' method="post">
+    {% csrf_token %}
+    <input name="user_id" value=" {{ request.user.id }}">
+    <input name="article_id" value="{{ article.id  }}">
+    <button type='submit'><span id="button_label">{{ button }}</span></button>
+    </form>
+
+    <form action="{% url 'favorite_set' %}" method="post">
+    {% csrf_token %}
+        <input name="user_id" value=" {{ request.user.id }}">
+    <input name="article_id" value="{{ article.id  }}">
+    <button type='submit'><span id="button_label_2">{{button_2}}</span></button>
+    </form>
+
+    <a href="{% url 'article_edit' article.id %}" > Edit</a>
+
+
+
+<script>
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var formData = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: formData,
+            success: function(response) {
+                var newLikeCount = response.like_count;  // сервер возвращает новое количество лайков.
+                var newButton_label = response.button_label;  // сервер возвращает новое имя кнопки
+                 var newButton_label_2 = response.button_label_2;  // сервер возвращает новое имя кнопки
+
+                $('#like-count').text(newLikeCount);  // Обновляет отображаемое количество лайков.
+                $('#button_label').text(newButton_label);  // Обновляет отображаемое имя кнопки.
+                $('#button_label_2').text(newButton_label_2);  // Обновляет отображаемое имя кнопки.
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+</script>
+
+
+{% endblock %}

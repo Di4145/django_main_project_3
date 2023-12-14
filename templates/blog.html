@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+{% for article in articles %}
+
+{#<href='{% url article.get_absolute_url %}'>  </href>#}
+    <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a>
+    <br>
+
+{% endfor %}
+
+{% endblock %}

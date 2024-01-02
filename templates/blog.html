@@ -8,4 +8,12 @@
 
 {% endfor %}
 
+<form action="" method="POST" role="form">
+    {% csrf_token %}
+    <input type="text" name="name"  placeholder="Введите имя" value="{{ request.GET.name}}" required>
+    <input name="email" type="email"  placeholder="Введите Email" value="{{ request.GET.email}}" required>
+    <input type="text" name="subject" placeholder="Тема письма" value="{{ request.GET.subject}}" required>
+    <button type="submit" class="btn btn-a">Отправить сообщение</button>
+</form>
+
 {% endblock %}

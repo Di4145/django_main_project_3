@@ -2,14 +2,22 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.core.mail import send_mail
 
 from blog.forms import EditArticleForm
 from blog.models import Article, Like, Favorites
+from blog.tasks import spam
 
 
 # Create your views here.
 def blog(request):
     articles = Article.objects.all()
+    if request.method == 'POST':
+        message = request.POST.get('subject')
+        subject = 'Пример'
+        email = request.POST.get('email')
+        spam.delay(message, subject, email)
+        return render(request, 'blog2.html')
     return render(request, 'blog.html', {'articles': articles})
 
 

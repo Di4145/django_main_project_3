@@ -35,6 +35,9 @@ urlpatterns = [
     path('api-token-auth/', api_token_views.obtain_auth_token),
     #Telegram bot
     path('tbot/', include('telegram_bot.urls')),
+    # Shop
+    path('shop/', include('shop.urls')),
+
 
 
 

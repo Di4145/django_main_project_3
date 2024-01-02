@@ -16,3 +16,12 @@ class TelegramSupport(models.Model):
 
     def __str__(self):
         return f'{self.email}, {self.data}'
+
+
+class TelegramSpam(models.Model):
+    title = models.CharField(max_length=50)
+    message = models.TextField()
+    image = models.ImageField(upload_to='telegram_spam')
+
+    def __str__(self):
+        return self.title

@@ -2,7 +2,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 from telegram_bot.bot import telegram_send
-from telegram_bot.models import TelegramSupport
+from telegram_bot.models import TelegramSupport, TelegramSpam
 
 
 @receiver(post_save, sender=TelegramSupport)
@@ -16,5 +16,11 @@ def signal_support(instance, created, **kwargs):
         telegram_send(chat_id, send_message)
 
 
+@receiver(post_save, sender=TelegramSpam)
+def signal_telegram_spam(instance, created, **kwargs):
+    if created:
+        message = instance.message
+        image = instance.image
+        print(message)
 
 

@@ -204,3 +204,7 @@ REST_FRAMEWORK = {
 TELEGRAM_API_KEY = env('telegram_api_key')
 TELEGRAM_WEBHOOK = env('telegram_webhook')
 TELEGRAM_BOT_LINK = env('telegram_bot_link')
+HOST_URL = env('HOST_URL')
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'

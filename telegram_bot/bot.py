@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from telebot import types
 
-from shop.models import Type
+from shop.models import Type, Product
 from telegram_bot.models import TelegramUser
 
 telegram_api_key = settings.TELEGRAM_API_KEY
@@ -57,12 +57,20 @@ def category(message):
     bot.send_message(message.chat.id, 'Выберите категорию', reply_markup=markup)
 
 
-@bot.callback_query_handlers(func=lambda call: call.data.startswith('category'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith('category'))
 def detail_category(call):
-    # bot.send_message(call.message.chat.id, f'Вы выбрали ')
-    pass
+    bot.send_message(call.message.chat.id, f'Вы выбрали {call.data}')
+    product_bot = call.data.split(':')[1]
+    products = Product.objects.filter(type__name=product_bot)
+    for product in products:
+        bot.send_message(call.message.chat.id, f'{product} - {settings.HOST_URL}{product.get_absolute_url()}')
 
 
+# bot.send_photo()
+#
+#
+# with open() as file:
+#     photo = file.read()
 
 
 def telegram_send(chat_id, message):

@@ -28,6 +28,7 @@ def telegram_webhook(request):
 
 @bot.message_handler(commands=['start'])
 def start(message):
+    print('dsfsdf')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton('Category')
     item2 = types.KeyboardButton('info2')
@@ -66,13 +67,6 @@ def detail_category(call):
         bot.send_message(call.message.chat.id, f'{product} - {settings.HOST_URL}{product.get_absolute_url()}')
 
 
-# bot.send_photo()
-#
-#
-# with open() as file:
-#     photo = file.read()
-
 
 def telegram_send(chat_id, message):
-    print(chat_id)
     bot.send_message(chat_id, message)

@@ -19,10 +19,11 @@ def signal_support(instance, created, **kwargs):
 
 @receiver(post_save, sender=TelegramSpam)
 def signal_telegram_spam(instance, created, **kwargs):
-    if created:
+    if True:
         message = instance.message
-        # image = instance.image
-        print(message)
-        send_telegram_spam(message)
+        title = instance.title
+        image_path = instance.image.path
+        send = f'{title}\n{message}'
+        send_telegram_spam.delay(send, image_path)
 
 

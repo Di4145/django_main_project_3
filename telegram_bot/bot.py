@@ -28,7 +28,6 @@ def telegram_webhook(request):
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    print('dsfsdf')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton('Category')
     item2 = types.KeyboardButton('info2')
